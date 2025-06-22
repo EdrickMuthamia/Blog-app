@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Blog/Post Manager</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="container" style="display: flex;">
+    <div id="post-list" style="width: 30%; border-right: 1px solid #ccc; padding: 1rem;">
+
+    </div>
+    <div id="post-detail" style="width: 70%; padding: 1rem;">
+
+    </div>
+  </div>
+  <form id="new-post-form" style="margin-top: 2rem;">
+    <h3>Add New Post</h3>
+    <input type="text" id="new-title" placeholder="Title" required />
+    <input type="text" id="new-author" placeholder="Author" required />
+    <textarea id="new-content" placeholder="Content" required></textarea>
+    <button type="submit">Add Post</button>
+  </form>
+
+  <form id="edit-post-form" class="hidden">
+    <h4>Update Post Details</h4>
+    <label for="edit-title">Title:</label>
+    <input type="text" name="title" id="edit-title" />
+    <label for="edit-content">Content:</label>
+    <textarea name="content" id="edit-content" rows="5"></textarea>
+    <button type="submit">Update Post</button>
+    <button type="button" id="cancel-edit">Cancel</button>
+  </form>
+  <script src="src/index.js"></script>
+</body>
+</html>
