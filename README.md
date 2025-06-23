@@ -1,4 +1,4 @@
-# Simple Blog/Post Manager
+#  Blog App
 
 A simple blog app built with vanilla JavaScript, HTML, and CSS.  
 It allows you to view, add, edit, and delete blog posts using a mock REST API.
