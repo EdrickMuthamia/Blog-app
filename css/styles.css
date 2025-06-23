@@ -1,40 +1,68 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  margin: 0;
+  padding: 0;
 }
-
-.container {
+#container {
   display: flex;
-  gap: 20px;
+  min-height: 100vh;
+}
+#sidebar {
+  width: 250px;
+  background: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+#main-content {
+  flex: 1;
+  padding: 20px;
+  background: #fafbfc;
+}
+#post-list ul {
+  list-style: none;
+  padding: 0;
+}
+#post-list li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+#post-list li:hover {
+  background: #e0e0e0;
+}
+#post-list li.selected {
+  background: #d0ebff;
+}
+#post-detail img {
+  max-width: 100%;
+  margin: 10px 0;
+}
+form {
   margin-top: 20px;
 }
-
-#post-list {
-  width: 30%;
-  border-right: 1px solid #ccc;
-  padding-right: 20px;
-}
-
-.post-title {
-  cursor: pointer;
-  padding: 5px;
-  border-bottom: 1px solid #eee;
-}
-
-#post-detail {
-  width: 70%;
-}
-
-form {
-  margin-top: 30px;
-}
-
 input, textarea {
-  width: 100%;
-  margin-bottom: 10px;
   padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
-
+button {
+  padding: 8px 16px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 4px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #1565c0;
+}
 .hidden {
   display: none;
 }
