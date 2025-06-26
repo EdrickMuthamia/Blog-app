@@ -1,6 +1,5 @@
 const BASE_URL = 'http://localhost:3000/posts';
 
-// Elements
 const postList = document.getElementById('post-list');
 const postDetail = document.getElementById('post-detail');
 const newPostForm = document.getElementById('new-post-form');
@@ -9,15 +8,28 @@ const editTitleInput = document.getElementById('edit-title');
 const editContentInput = document.getElementById('edit-content');
 const cancelEditBtn = document.getElementById('cancel-edit');
 
+let postsCache = [];
 let currentPostId = null;
 
-// Load posts from server
-async function fetchPosts() {
-  const response = await fetch(BASE_URL);
-  return await response.json();
+// Main function
+function main() {
+  fetchPosts().then(posts => displayPosts(posts));
+  addNewPostListener();
+  setupEditForm();
 }
 
-// Display posts in sidebar (with images)
+main();
+
+
+// Fetch all posts from server
+async function fetchPosts() {
+  const res = await fetch(BASE_URL);
+  const posts = await res.json();
+  postsCache = posts;
+  return posts;
+}
+
+// Display all posts in sidebar with images
 function displayPosts(posts) {
   postList.innerHTML = '';
   const ul = document.createElement('ul');
@@ -27,6 +39,8 @@ function displayPosts(posts) {
     li.style.alignItems = 'center';
     li.style.cursor = 'pointer';
     li.style.marginBottom = '10px';
+        if (post.id === currentPostId) li.classList.add('selected'); // Highlight
+
 
     const img = document.createElement('img');
     img.src = post.image;
@@ -47,60 +61,56 @@ function displayPosts(posts) {
   });
   postList.appendChild(ul);
 
+  // Show first post details on load
   if (posts.length > 0 && !currentPostId) {
-    handlePostClick(posts[0].id); // Show first post by default
+    handlePostClick(posts[0].id);
   }
 }
 
-// Get and show single post
+// Fetch and show single post details
 async function handlePostClick(id) {
   currentPostId = id;
-  const response = await fetch(`${BASE_URL}/${id}`);
-  const post = await response.json();
+  const res = await fetch(`${BASE_URL}/${id}`);
+  const post = await res.json();
   showPostDetails(post);
 }
 
-// Show post details
+// Show post details and Edit button
 function showPostDetails(post) {
+  editPostForm.classList.add('hidden'); // Hide edit form when showing details
   postDetail.innerHTML = `
     <h2>${post.title}</h2>
     <p><strong>By ${post.author}</strong> • ${post.date ? post.date : ''}</p>
     <img src="${post.image}" alt="Post Image" style="max-width:100%;margin:10px 0;">
     <p>${post.content}</p>
     <button id="edit-btn">Edit</button>
-    <button id="delete-btn">Delete</button>
   `;
-
   document.getElementById('edit-btn').addEventListener('click', () => showEditForm(post));
-  document.getElementById('delete-btn').addEventListener('click', () => deletePost(post.id));
 }
 
-// Show edit form
+// Show edit form for post
 function showEditForm(post) {
   editTitleInput.value = post.title;
   editContentInput.value = post.content;
   editPostForm.classList.remove('hidden');
 }
 
-// Handle edit form submission
-async function setupEditForm() {
-  editPostForm.addEventListener('submit', async (e) => {
+// Handle edit form submission (frontend only)
+function setupEditForm() {
+  editPostForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!currentPostId) return;
 
-    const updatedPost = {
-      title: editTitleInput.value,
-      content: editContentInput.value,
-    };
-    await fetch(`${BASE_URL}/${currentPostId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedPost),
-    });
-
-    const posts = await fetchPosts();
-    displayPosts(posts);
-    handlePostClick(currentPostId);
+    // Update post in cache and UI only (not persisted for this deliverable)
+    const updatedTitle = editTitleInput.value;
+    const updatedContent = editContentInput.value;
+    const post = postsCache.find(p => p.id === currentPostId);
+    if (post) {
+      post.title = updatedTitle;
+      post.content = updatedContent;
+      displayPosts(postsCache);
+      showPostDetails(post);
+    }
     editPostForm.classList.add('hidden');
   });
 
@@ -109,51 +119,31 @@ async function setupEditForm() {
   });
 }
 
-// Delete post
-async function deletePost(id) {
-  await fetch(`${BASE_URL}/${id}`, {
-    method: 'DELETE',
-  });
-
-  const posts = await fetchPosts();
-  displayPosts(posts);
-  postDetail.innerHTML = '<p>Select a post to view details.</p>';
-  currentPostId = null;
-  editPostForm.classList.add('hidden');
-}
-
-// Submit new post
-async function addNewPostListener() {
+// Add new post (frontend only for core deliverable)
+function addNewPostListener() {
   newPostForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    editPostForm.classList.add('hidden');
     const newPost = {
       title: document.getElementById('new-title').value,
       author: document.getElementById('new-author').value,
       image: document.getElementById('new-image').value,
       content: document.getElementById('new-content').value,
+      date: new Date().toISOString().split('T')[0]
     };
 
-    const response = await fetch(BASE_URL, {
+    // Persist to backend
+    const res = await fetch(BASE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newPost),
+      body: JSON.stringify(newPost)
     });
+    const createdPost = await res.json();
 
-    const createdPost = await response.json();
+    // Fetch updated posts and update UI
     const posts = await fetchPosts();
     displayPosts(posts);
-    handlePostClick(createdPost.id);
+    showPostDetails(createdPost);
     newPostForm.reset();
   });
 }
-
-// Main function
-async function main() {
-  const posts = await fetchPosts();
-  displayPosts(posts);
-  addNewPostListener();
-  setupEditForm();
-}
-
-main();
