@@ -6,10 +6,11 @@ body {
 #container {
   display: flex;
   min-height: 100vh;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 #sidebar {
   width: 250px;
-  background: #f4f4f4;
+  background: #f4f4f4; /* lighter for contrast */
   padding: 20px;
   border-right: 1px solid #ddd;
 }
@@ -43,15 +44,16 @@ form {
   margin-top: 20px;
 }
 input, textarea {
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 10px;
+  margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
+  font-size: 1rem;
 }
 button {
-  padding: 8px 16px;
+  padding: 10px 18px;
   margin-top: 8px;
   border: none;
   border-radius: 4px;
@@ -59,9 +61,11 @@ button {
   color: white;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 1rem;
 }
 button:hover {
   background: #1565c0;
+  cursor: pointer;
 }
 .hidden {
   display: none;
