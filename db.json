@@ -1,12 +1,36 @@
 {
   "posts": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Welcome to My Blog",
       "author": "Alice",
-      "image": "https://placekitten.com/200/200",
+      "image": "https://img.freepik.com/premium-photo/medium-shot-woman-living-farmhouse_23-2150621719.jpg",
       "content": "This is the first post on my blog!",
       "date": "2025-06-24"
+    },
+    {
+      "id": "2",
+      "title": "Another Day, Another Post",
+      "author": "Bob",
+      "image": "https://img.freepik.com/premium-photo/side-view-adventurous-couple-bivouacking_23-2150562891.jpg",
+      "content": "Here's another interesting post.",
+      "date": "2025-06-23"
+    },
+    {
+      "id": "3",
+      "title": "My Name",
+      "author": "White",
+      "image": "https://img.freepik.com/free-photo/beautiful-sky-sunset-sun-clouds-landscape-nature-background_1150-10228.jpg?uid=R197542600&semt=ais_items_boosted&w=740",
+      "content": "Best man",
+      "date": "2025-06-22"
+    },
+    {
+      "id": "c3e1",
+      "title": "messi",
+      "author": "my name",
+      "image": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQFE_d0Kx4o-WnsStQtedagyeWPB23cFZYTIzgrGGxiulIkiyHpztv6_dFxk605S3ayUA4LzqagWvX5YE8hNIs8slu6KWtCwLhQ9nDlR9Jx8Q",
+      "content": "one of the best",
+      "date": "2025-06-26"
     }
   ]
 }
